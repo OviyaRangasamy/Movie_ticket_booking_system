@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Movie_pick</title>
+</head>
+
+<body>
+    <div id="movie_select"></div>
+</body>
+
+</html>
+<script>
+
+    // Theater dataset contains details of theatre name and show timings
+    theatre_data = [
+        {
+            theatre_name: "Miraj Cinemas",
+            show_time: ["10.00 AM", "6.00 PM"],
+        },
+        {
+            theatre_name: "The Cinema",
+            show_time: ["10.00 AM", "2.00 PM", "6.00 PM"],
+        },
+        {
+            theatre_name: "KG Cinemas",
+            show_time: ["10.00 AM", "6.00 PM", "10.15 PM"],
+        },
+        {
+            theatre_name: "AGS Cinemas",
+            show_time: ["10.00 AM", "4.00 PM", "11.15 PM"],
+        },
+
+    ];
+
+
+    const key_values = window.location.search;
+    // urlparamas get all the data that we get from the previous page
+    const urlparams = new URLSearchParams(key_values);
+
+    const image_fix = urlparams.get("image");
+    const movie_name = urlparams.get("name");
+    const movie_duration = urlparams.get("hours");
+    const movie_type = urlparams.get("theme");
+
+    console.log(image_fix);
+    console.log(movie_name);
+    console.log(movie_duration);
+    console.log(movie_type);
+
+
+    const movie_select_id = document.getElementById("movie_select");
+
+    // container that contains the selected movie's details that are to be displayed on the page 
+    const ex_container = document.createElement("div");
+    ex_container.className = "movie_fix";
+    movie_select_id.appendChild(ex_container);
+
+    const img_set = document.createElement("img");
+    img_set.className = "image_set";
+    img_set.src = image_fix;
+    ex_container.appendChild(img_set);
+
+    const details = document.createElement("div");
+    details.className = "details";
+    ex_container.appendChild(details);
+
+    const m_name = document.createElement("div");
+    m_name.className = "name";
+    m_name.innerHTML = movie_name;
+    details.appendChild(m_name);
+
+    const duration = document.createElement("div");
+    duration.className = "name";
+    duration.innerHTML = movie_duration;
+    details.appendChild(duration);
+
+    const theme = document.createElement("div");
+    theme.className = "name";
+    theme.innerHTML = movie_type;
+    details.appendChild(theme);
+
+    // submit_info is the book tickets button on clicking the button, it displays the theatres with show timing.
+    const submit_info = document.createElement("button");
+    submit_info.className = "save";
+    submit_info.innerHTML = "Book Tickets";
+    submit_info.onclick = count_1;
+    details.appendChild(submit_info);
+
+    var count = 0;
+    function count_1() {
+        if (count === 0) {
+            book_tickets();
+        };
+        count += 1;
+    }
+
+    // book_tickets function contains all the theatre details and show timings that are taken from the theatre dataset and it contains the current date
+    function book_tickets() {
+
+        const theatre_details = document.createElement("div");
+        theatre_details.className = "theatre_container";
+        movie_select_id.appendChild(theatre_details);
+
+        const date_select = document.createElement("input");
+        date_select.className = "date_pick";
+        date_select.type = "date";
+        date_select.required;
+        get_today_date();
+
+        // get_today_date function will get the current date
+        function get_today_date() {
+            var today = new Date;
+            var t_date = today.getDate();
+            var t_month = (today.getMonth() + 1);
+            var t_year = today.getFullYear();
+
+            if (t_date < 10) {
+                t_date = "0" + t_date;
+            }
+            if (t_month < 10) {
+                t_month = "0" + t_month;
+            }
+
+            var min_date = `${t_year}-${t_month}-${t_date}`;
+            date_select.min = min_date;
+            date_select.value = min_date;
+            
+
+        
+        }
+        const date_set = date_select.value;
+        console.log(date_set);
+        theatre_details.appendChild(date_select);
+
+        const show_div = document.createElement("div");
+        theatre_details.appendChild(show_div);
+        for (let i of theatre_data) {
+            const theatre_info_container = document.createElement("div");
+            theatre_info_container.className = "theatre_detail";
+            show_div.appendChild(theatre_info_container);
+
+            const theatre_info = document.createElement("div");
+            theatre_info.className = "theatre_name";
+            const select_theatre = i.theatre_name;
+            theatre_info.innerHTML = select_theatre ;
+            theatre_info_container.appendChild(theatre_info);
+
+
+            const time_div = document.createElement("div");
+            time_div.className = "time_div";
+            theatre_info_container.appendChild(time_div);
+            for (j of i.show_time) {
+                const show_details = document.createElement("div");
+                const timing = document.createElement("button");
+                timing.className = "show_timing";
+                timing.innerHTML = j;
+                show_details.appendChild(timing);
+                time_div.appendChild(show_details);
+                const time_set = j; 
+                timing.onclick = function(){timing_url(movie_name,select_theatre,date_set,time_set)}
+            }
+            const tag = document.createElement("hr");
+            show_div.appendChild(tag);
+
+
+        }
+    }
+
+    // timing_url function gets the datas such as date, time, theatre and movie_name  which redirects to seat selection page
+    function timing_url(movie_name,select_theatre ,date_set,time_set) {
+        const movie_url_time = `./seat_pick.html?name=${movie_name}&theatre=${select_theatre}&date=${date_set}&time=${time_set}`;
+        console.log(movie_url_time);
+        window.location = movie_url_time;
+    }
+
+
+
+</script>

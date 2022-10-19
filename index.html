@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Movie</title>
+</head>
+
+<body>
+    <div id=tickets></div>
+</body>
+
+</html>
+<script>
+
+    // Object containing the location which have the value as the places
+
+    location_select = [
+        {
+            val: "Chennai",
+        },
+        {
+            val: "Bangalore",
+        },
+        {
+            val: "Hyderabad",
+        },
+        {
+            val: "Thiruvandrum",
+        }
+
+    ];
+
+    // Movie dataset according to the location
+    // The movie dataset contains the data of movie name, movie theme , movie duration and the image details
+
+    // Movie dataset for the location - Chennai
+    chennai_movie_data = [
+        {
+            name: "VTK",
+            theme: "Action,Crime,Drama",
+            duration: "2.5 hrs",
+            image: "https://i0.wp.com/www.newsbugz.com/wp-content/uploads/2021/08/Vendhu-Thanindhathu-Kaadu.png?resize=1000%2C600&ssl=1",
+        },
+        {
+            name: "Naaney Varuven",
+            theme: "Action,Drama,thriller",
+            duration: "2.45 hrs",
+            image: "https://th.bing.com/th/id/OIP.KYXCuE2J3mnGpjVi4EuO1gHaEK?pid=ImgDet&rs=1",
+
+        },
+        {
+            name: "Ponniyin Selvan",
+            theme: "Action,Drama,Adventure,Historical",
+            duration: "3.05hrs",
+            image: "https://tamil.indianexpress.com/wp-content/uploads/2020/01/Ponniyin-Selvan-Title-font.jpg?resize=650",
+
+        },
+        {
+            name: "Bramahstra",
+            theme: "Action,Adventure,Fantasy",
+            duration: "2.45hrs",
+            image: "https://static.toiimg.com/photo/imgsize-979446,msid-68283885/68283885.jpg",
+
+        },
+        {
+            name: "Sita Ramam",
+            theme: "Action,Romantic",
+            duration: "2.07 hrs",
+            image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjrMBDPl2NHVnawrf__oo1W6fjYAtPYp3J5oCqAJu1_OR8rbksaKhJiB_vIxSJY9a0mxX25dxBdaId8JI13DAt5Y8MMsxrocLcZtvNKmSXBghSu5SGH2-9LcPPcqakzbxCClMrCO1lfrok7mex9B48HJt3Xde2APABeXxYm59b_Pxw1DNmH052891Mwlw/s320/IMG_20220904_203040_896.jpg",
+
+        },
+
+
+    ];
+
+    // Movie dataset for the location - Bangalore
+    Bangalore_movie_data = [
+        {
+            name: "Kantara",
+            theme: "Action,Thriller,Drama",
+            duration: "2.5 hrs",
+            image: "https://www.filmibeat.com/imgm/227x128x100/2021/08/kantara_16282346622.jpg",
+        },
+        {
+            name: "Vikram Vedha",
+            theme: "Action,Drama,thriller",
+            duration: "2.45 hrs",
+            image: "https://i.ytimg.com/vi/eqkS55Hgt60/maxresdefault.jpg",
+
+        },
+        {
+            name: "K.G.F",
+            theme: "Action,Adventure",
+            duration: "2.45hrs",
+            image: "https://th.bing.com/th/id/OIP.21Tx_9nzRM6NHLpY3987hAHaFo?pid=ImgDet&rs=1",
+        },
+        {
+            name: "Ponniyin Selvan",
+            theme: "Action,Drama,Adventure,Historical",
+            duration: "3.05hrs",
+            image: "https://tamil.indianexpress.com/wp-content/uploads/2020/01/Ponniyin-Selvan-Title-font.jpg?resize=650",
+
+        },
+        {
+            name: "K.G.F 2",
+            theme: "Action,Drama,Romantic",
+            duration: "2.07 hrs",
+            image: "https://moviegalleri.net/wp-content/uploads/2019/12/Hero-Yash-KGF-Chapter-2-First-Look-Poster-HD.jpg"
+        },
+
+
+    ];
+
+
+    // Movie dataset for the location - Hyderabad
+    Hyderabad_movie_data = [
+        {
+            name: "Ponniyin Selvan",
+            theme: "Action,Drama,Adventure,Historical",
+            duration: "3.05hrs",
+            image: "https://tamil.indianexpress.com/wp-content/uploads/2020/01/Ponniyin-Selvan-Title-font.jpg?resize=650",
+
+
+        },
+        {
+            name: "Vikram Vedha",
+            theme: "Action,Drama,thriller",
+            duration: "2.45 hrs",
+            image: "https://i.ytimg.com/vi/eqkS55Hgt60/maxresdefault.jpg",
+
+        },
+        {
+            name: "Kantara",
+            theme: "Action,Thriller,Drama",
+            duration: "2.5 hrs",
+            image: "https://www.filmibeat.com/imgm/227x128x100/2021/08/kantara_16282346622.jpg",
+
+        },
+        {
+            name: "Ini Uthram",
+            theme: "Thriller,Crime,Drama",
+            duration: "2.5 hrs",
+            image: "https://assetscdn1.paytm.com/images/cinema/Inni-Utharam-app-aac655b0-42fc-11ed-8693-977ced3e2014.jpg",
+
+
+        },
+        {
+            name: "Bramahstra",
+            theme: "Action,Adventure,Fantasy",
+            duration: "2.45hrs",
+            image: "https://static.toiimg.com/photo/imgsize-979446,msid-68283885/68283885.jpg",
+        },
+
+
+    ];
+
+    // Movie dataset for the location - Thiruvandrum
+    Thiruvandrum_movie_data = [
+        {
+            name: "Ini Uthram",
+            theme: "Thriller,Crime,Drama",
+            duration: "2.5 hrs",
+            image: "https://assetscdn1.paytm.com/images/cinema/Inni-Utharam-app-aac655b0-42fc-11ed-8693-977ced3e2014.jpg",
+
+        },
+        {
+            name: "Sita Ramam",
+            theme: "Action,Romantic",
+            duration: "2.07 hrs",
+            image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjrMBDPl2NHVnawrf__oo1W6fjYAtPYp3J5oCqAJu1_OR8rbksaKhJiB_vIxSJY9a0mxX25dxBdaId8JI13DAt5Y8MMsxrocLcZtvNKmSXBghSu5SGH2-9LcPPcqakzbxCClMrCO1lfrok7mex9B48HJt3Xde2APABeXxYm59b_Pxw1DNmH052891Mwlw/s320/IMG_20220904_203040_896.jpg",
+
+        },
+        {
+            name: "Bramahstra",
+            theme: "Action,Adventure,Fantasy",
+            duration: "2.45hrs",
+            image: "https://static.toiimg.com/photo/imgsize-979446,msid-68283885/68283885.jpg",
+        },
+        {
+            name: "Padavettu",
+            theme: "Action,Drama,thriller",
+            duration: "2.45 hrs",
+            image: "https://images.cinemaexpress.com/uploads/user/imagelibrary/2020/7/19/original/Nivin_in_Padavettu.jpg",
+
+        },
+        {
+            name: "Ponniyin Selvan",
+            theme: "Action,Drama,Adventure,Historical",
+            duration: "3.05hrs",
+            image: "https://tamil.indianexpress.com/wp-content/uploads/2020/01/Ponniyin-Selvan-Title-font.jpg?resize=650",
+
+        },
+
+
+    ];
+
+    const system = document.getElementById("tickets");
+
+    // The main container of the page
+    const main = document.createElement("div");
+    system.appendChild(main);
+
+    // Header container which containing the logo and the sub header
+    const head = document.createElement('header');
+    head.className = "head_div";
+    main.appendChild(head);
+
+    // Logo image appended to the header
+    const logo_div = document.createElement("img");
+    logo_div.className = "logo";
+    logo_div.src = "https://in.bmscdn.com/webin/common/icons/logo.svg";
+    head.appendChild(logo_div);
+
+    // Sub header container contains search bar,location drop-down and signin link
+    const sub_head = document.createElement("div");
+    sub_head.className = "sub_head";
+    head.appendChild(sub_head);
+
+    const search = document.createElement("input");
+    search.className = "search_bar";
+    search.type = "text";
+    search.size = "100";
+    search.placeholder = "Search Movies";
+    sub_head.appendChild(search);
+
+    // location container which has the dropdown displaying the places on hovering
+    const locate = document.createElement("div");
+    locate.className = "dropdown";
+    sub_head.appendChild(locate);
+
+    // Container that holds the location on selection
+    const locate_input = document.createElement("input");
+    locate_input.placeholder = "select location";
+    locate_input.style = "display : hidden;"
+    locate.appendChild(locate_input);
+
+    // Design of the dropdown box
+    // By default the options are hidden on hovering on the location container it displays the places
+    const opt = document.createElement("div");
+    const o_list = document.createElement("div");
+    o_list.style.backgroundColor = "wheat";
+    o_list.style.borderRadius = "10px";
+    locate.appendChild(opt);
+    opt.appendChild(o_list);
+    for (let loc of location_select) {
+        const loc_list = document.createElement("div");
+        loc_list.className = "select_options";
+        loc_list.innerHTML = `<a>${loc.val}</a>`;
+        o_list.appendChild(loc_list);
+        loc_list.addEventListener("click", () => {
+            locate_input.value = `${loc.val}`;
+            movie_display();
+        })
+    }
+
+    locate_input.oninput = movie_display;
+
+    var emp_arr = [];
+
+    // movie_dispaly function displays the list of movie with respect to the location
+    function movie_display() {
+        if (locate_input.value == "Thiruvandrum") {
+            var movie_data = Thiruvandrum_movie_data;
+            if (!(emp_arr.includes(locate_input.value.toString()))) {
+                emp_arr.push(locate_input.value);
+                movie_loop(movie_data);
+            }
+
+        }
+
+        else if (locate_input.value == "Chennai") {
+            var movie_data = chennai_movie_data;
+            if (!(emp_arr.includes(locate_input.value.toString()))) {
+                emp_arr.push(locate_input.value);
+                movie_loop(movie_data);
+            }
+
+        }
+        else if (locate_input.value == "Bangalore") {
+            var movie_data = Bangalore_movie_data;
+            if (!(emp_arr.includes(locate_input.value.toString()))) {
+                emp_arr.push(locate_input.value);
+                movie_loop(movie_data);
+            }
+        }
+        else if (locate_input.value == "Hyderabad") {
+            var movie_data = Hyderabad_movie_data;
+            if (!(emp_arr.includes(locate_input.value.toString()))) {
+                emp_arr.push(locate_input.value);
+                movie_loop(movie_data);
+            }
+        }
+
+        // movie_loop function will get the the data from the movie dataset and display it in the card
+        function movie_loop(elem) {
+            for (let i of movie_data) {
+
+                // External container containing movie image and movie description
+                const movie_details = document.createElement("a");
+                movie_details.className = "ex_container";
+                movie_list.appendChild(movie_details);
+
+                // Image container
+                const image_c = document.createElement("div");
+                image_c.className = "image_container";
+                movie_details.appendChild(image_c);
+
+                // Image added to the container
+                const movie_img = document.createElement("img");
+                movie_img.className = "image";
+                const image_source = i.image;
+                movie_img.src = image_source;
+                // movie_img.onclick = urlcall;
+                image_c.appendChild(movie_img);
+
+                //Internal container that contains the details
+                const movie_description = document.createElement("div");
+                movie_description.className = "movie_container";
+                movie_details.appendChild(movie_description);
+
+                // Movie name is collected in a div
+                const movie_name = document.createElement("div");
+                const movie_naming = i.name;
+                movie_name.innerHTML = movie_naming;
+                movie_description.appendChild(movie_name);
+
+                // Movie duration is collected in a div
+                const movie_duration = document.createElement("div");
+                const movie_hours = i.duration;
+                movie_duration.innerHTML = movie_hours;
+                movie_description.appendChild(movie_duration);
+
+                // Movie theme is collected in a div
+                const movie_theme = document.createElement("div");
+                movie_theme.className = "theme";
+                const movie_type = i.theme;
+                movie_theme.innerHTML = movie_type;
+                movie_description.appendChild(movie_theme);
+                movie_details.onclick = function () { movie_url(image_source, movie_naming, movie_hours, movie_type); }
+
+            }
+        }
+    }
+
+    // Sign in or the login page  link
+    const sign_in = document.createElement("a");
+    sign_in.className = "signin";
+    sign_in.href = "#";
+    sign_in.innerText = "Sign In";
+    sub_head.appendChild(sign_in);
+
+    // container that contains the movie list
+    const movie_disp = document.createElement("div");
+    main.appendChild(movie_disp);
+
+    const movie_list = document.createElement("div");
+    movie_list.className = "list";
+    movie_disp.appendChild(movie_list);
+
+    // movie_url function redirects the page to the theatre booking page
+    function movie_url(image_source, name, duration, theme) {
+        const movie_url_name = `./movie_select.html?name=${name}&hours=${duration}&theme=${theme}&image=${image_source}`;
+        console.log(movie_url_name);
+        window.location = movie_url_name;
+    }
+</script>

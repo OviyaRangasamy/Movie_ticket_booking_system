@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Movie_seats</title>
+</head>
+
+<body>
+    <div id=seats></div>
+</body>
+
+</html>
+<script>
+
+    // numberOfSeats contains the maximum number of tickets a user can book
+    numberOfSeats = {
+        val: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    }
+
+    // seat_data contains the number of seats in a row , price of the seats and order of the row
+    const seat_data = [
+        {
+            order: "A",
+            seats: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+            price: 350
+        },
+        {
+            order: "B",
+            seats: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+            price: 300
+        },
+        {
+            order: "C",
+            seats: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+            price: 250
+        },
+        {
+            order: "D",
+            seats: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+            price: 200
+        },
+        {
+            order: "E",
+            seats: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+            price: 200
+        },
+        {
+            order: "F",
+            seats: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+            price: 150
+        },
+        {
+            order: "G",
+            seats: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+            price: 150
+        },
+        {
+            order: "H",
+            seats: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+            price: 100
+        },
+
+
+    ];
+
+
+
+    let options = { day: 'numeric', month: 'short', year: 'numeric' }
+
+    const key_values = window.location.search;
+   // urlparamas get all the data that we get from the previous page
+    const urlparams = new URLSearchParams(key_values);
+
+    const movie_name = urlparams.get("name");
+    const theatre = urlparams.get("theatre");
+    let temp_date = new Date(urlparams.get("date"));
+
+    const select_date = temp_date.toLocaleDateString("en-US", options);
+    const select_time = urlparams.get("time");
+
+
+
+
+    // main container
+    const ext_container = document.getElementById("seats");
+
+    // modal container contains the number of tickets a user can book
+    const modal_container = document.createElement("div");
+    modal_container.className = "modal";
+    const modal = document.createElement("div");
+    modal.className = "modal_div";
+    modal_container.appendChild(modal)
+    for (let i of numberOfSeats.val) {
+        const circle = document.createElement("div");
+        circle.className = "seat_number";
+        circle.innerHTML = i;
+        circle.onclick = function () { number_save(i) };
+        modal.appendChild(circle);
+    }
+    ext_container.appendChild(modal_container);
+
+    // number_save function gets the ticket_count and calls the save data and seat selection functions
+    function number_save(ticket_count) {
+        save_data(ticket_count);
+        seat_selection(ticket_count);
+
+    }
+
+    // On selecting the number of tickets the modal gets disappeared.
+    function save_data(ticket_count) {
+        if (ticket_count !== null && ticket_count !== undefined) {
+            modal_container.style.display = "none";
+        }
+
+    }
+
+    const closebtn = document.createElement("div");
+    closebtn.className = "close";
+    closebtn.innerHTML = "&times";
+    closebtn.addEventListener("click", function () {
+        modal_container.style.display = "none";
+    })
+    modal_container.appendChild(closebtn);
+
+    // header container
+    const sub_container = document.createElement("div");
+    sub_container.className = "sub_c";
+    ext_container.appendChild(sub_container);
+
+    // movie details are shown in this container
+    const info_container = document.createElement("div");
+    info_container.className = "info_div";
+    const name_container = document.createElement("div");
+    name_container.className = "name_detail";
+    name_container.innerHTML = movie_name;
+
+    const theatre_container = document.createElement("div");
+    theatre_container.className = "name_detail";
+    theatre_container.innerHTML = theatre;
+
+    const date_container = document.createElement("div");
+    date_container.className = "name_detail";
+    date_container.innerHTML = select_date;
+
+    const time_container = document.createElement("div");
+    time_container.className = "name_detail";
+    time_container.innerHTML = select_time;
+
+    info_container.appendChild(name_container);
+    info_container.appendChild(theatre_container);
+    info_container.appendChild(date_container);
+    info_container.appendChild(time_container);
+    sub_container.appendChild(info_container);
+
+    // Seat arrangement container
+    // seat selection function will add the selected seats and get the total price for the tickets
+    function seat_selection(ticket_count) {
+        const seat_container = document.createElement("div");
+        seat_container.className = "seat_div";
+        ext_container.appendChild(seat_container);
+
+        for (let i of seat_data) {
+            // each row is created for each array of container
+            const seat_row = document.createElement("div");
+            seat_row.className = "seat_row";
+            seat_container.appendChild(seat_row);
+
+            for (let j in i.seats) {
+                // label is created for appending the check box with the seat style
+                const seat_solo = document.createElement("label");
+                seat_solo.className = "seat_solo";
+                seat_row.appendChild(seat_solo);
+
+                // check box is created
+                const seat = document.createElement("input");
+                seat.type = "checkBox";
+                seat.onclick = selected;
+
+                // seat is designed and appended to the checkbox
+                const seat_set = document.createElement("div");
+                seat_set.className = "seat";
+                var ord = i.order + (i.seats[j].toString());
+                seat_set.innerHTML = ord;
+                seat.appendChild(seat_set);
+                seat_solo.appendChild(seat);
+                seat_solo.appendChild(seat_set);
+
+                // function created to identify the seat on clicking
+                var arr = []
+                var t_price = 0;
+
+                function selected() {
+                    // limit_chk function will enable the user to select only the seats as per the ticket count
+                    function limit_chk(ticket_count) {
+                        console.log(arr.length)
+                        if (arr.length < ticket_count) {
+                            console.log("butterfly");
+                        }
+                        else if (arr.length === ticket_count) {
+                            alert("proceed to pay")
+                        }
+                        else {
+                            alert("pick only choosed value")
+                        }
+                    }
+
+                    var str = ""
+                    var ord = i.order + (i.seats[j].toString());
+                    str += ord;
+                    seat_set.innerText = str;
+
+                    if (seat.checked == true) {
+                        arr.push(str);
+                        seat_box.innerHTML = arr;
+                        t_price += i.price;
+                        console.log(t_price);
+                        payment.innerHTML = `Pay: ${t_price}`;
+                    }
+
+                    else {
+
+                        removeElem(str);
+                        seat_box.innerHTML = arr;
+                        t_price -= i.price;
+                        console.log(t_price);
+                        payment.innerHTML = `Pay: ${t_price}`;
+                    }
+
+                    const price_value = t_price;
+
+                    function removeElem(elem) {
+
+                        for (let k in arr) {
+                            if (arr[k] === str) {
+                                var splicedElem = arr.splice(k, 1);
+                                console.log(splicedElem);
+                            }
+                        }
+                    }
+                    limit_chk(ticket_count);
+                    const final_arr = arr;
+                    console.log(final_arr);
+
+                    // on clicking the payment button a modal containig movie_name, theatre_name,show_timing,seat_numbersand price are displayed.
+                    payment.onclick = function () { details(movie_name, theatre, select_date, select_time, price_value, final_arr) };
+
+                    // Modal containing the necessary details
+                    function details(movie_name, theatre, select_date, select_time, price_value, final_arr) {
+                        const emp_arr = []
+                        emp_arr.push(movie_name)
+                        emp_arr.push(theatre)
+                        emp_arr.push(select_date)
+                        emp_arr.push(select_time)
+                        emp_arr.push(price_value)
+                        const ext_modal = document.createElement("div");
+                        ext_modal.className = "ext_modal";
+                        ext_container.appendChild(ext_modal);
+                        const detail_modal = document.createElement("div");
+                        detail_modal.className = "detail_modal";
+                        ext_modal.appendChild(detail_modal);
+
+                        const cross = document.createElement("div");
+                        cross.className = "cross";
+                        cross.innerHTML = "&times";
+                        cross.onclick = close;
+                        detail_modal.appendChild(cross);
+
+                        function close() {
+                            ext_modal.style.display = "none";
+                        }
+
+                        for (let j = 0; j < emp_arr.length; j++) {
+                            const info_div = document.createElement("div");
+                            info_div.className = "detail_div";
+                            info_div.innerHTML = emp_arr[j];
+                            detail_modal.appendChild(info_div);
+                        }
+                        console.log(movie_name, theatre, select_date, select_time, price_value);
+                        console.log(`Booked Seat Numbers:`)
+                        const text_div = document.createElement("div");
+                        text_div.className = "detail_div";
+                        text_div.innerHTML = `Total seats booked:${final_arr.length}`;
+                        text_div.style.width = "50%";
+                        const out_div = document.createElement("div");
+                        out_div.style.display = "flex";
+                        detail_modal.appendChild(text_div);
+                        detail_modal.appendChild(out_div);
+
+                        for (let i = 0; i < final_arr.length; i++) {
+                            const number_div = document.createElement("div");
+                            number_div.className = "number_div";
+                            number_div.innerHTML = final_arr[i];
+                            out_div.appendChild(number_div);
+
+                            console.log(final_arr[i]);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        // container to show the screen part
+        const screen_display = document.createElement("div");
+        screen_display.className = "screen_display";
+        ext_container.appendChild(screen_display);
+
+        // screen is placed in this container
+        const screen = document.createElement("div");
+        screen.className = "screen";
+        screen.innerHTML = "Show Screen this way!";
+        screen_display.appendChild(screen);
+
+        // payment and seat details div
+        const box_div = document.createElement("div");
+        box_div.className = "box_div";
+        ext_container.appendChild(box_div);
+
+        const seat_box = document.createElement("div");
+        seat_box.className = "seat_box";
+        box_div.appendChild(seat_box);
+
+        const payment = document.createElement("button");
+        payment.className = "payment_box";
+        box_div.appendChild(payment);
+
+    }
+</script>
